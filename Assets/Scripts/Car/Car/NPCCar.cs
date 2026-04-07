@@ -11,8 +11,8 @@ public class NPCCar : MonoBehaviour
 
     void Update()
     {
-        // NPC moves at 30% of player speed
-        float npcSpeed = playerRigidBody.velocity.z * 0.3f;
+    
+        float npcSpeed = playerRigidBody.velocity.z * 0.05f;
 
         // minimum speed of 0.5 so very slow
         npcSpeed = Mathf.Max(npcSpeed, 0.5f);

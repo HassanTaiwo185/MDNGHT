@@ -30,8 +30,20 @@ public class CarHandler : MonoBehaviour
     // Player input which are in 2 dimension(x& y)
     Vector2 input = Vector2.zero;
 
+    CarCollisionHandler collisionHandler;
+
+    float roadHalfWidth = 1f;
+
     void Start()
     {
+        collisionHandler = GetComponent<CarCollisionHandler>();
+
+        // get road width automatically
+        GameObject road = GameObject.FindGameObjectWithTag("Road");
+        if (road != null)
+        {
+            roadHalfWidth = road.GetComponentInChildren<Renderer>().bounds.size.x / 2f;
+        }
 
     }
 
@@ -43,6 +55,12 @@ public class CarHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        // stop all car physics if crashed
+        if (collisionHandler != null && collisionHandler.hasCrashed)
+            return;
+
+
         // If y equal 1 accelerate car or move car forwaard
         if (input.y > 0)
         {
@@ -132,6 +150,12 @@ public class CarHandler : MonoBehaviour
             Vector3 targetVelocity = new Vector3(0, 0, forwardSpeed);
             rigidBody.velocity = Vector3.Lerp(rigidBody.velocity, targetVelocity, Time.fixedDeltaTime * 10); 
         }
+
+        // clamp car position to road boundaries
+        float roadLimit = roadHalfWidth - 0.5f; // 0.5f so car stays fully on road
+        float clampedX = Mathf.Clamp(rigidBody.position.x, -roadLimit, roadLimit);
+        rigidBody.position = new Vector3(clampedX, rigidBody.position.y, rigidBody.position.z);
+
     }
 
     // Called from input system to set movement input

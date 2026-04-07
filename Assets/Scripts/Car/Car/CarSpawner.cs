@@ -40,23 +40,28 @@ public class CarSpawner : MonoBehaviour
 
     }
 
+    int lastLane = 0;
+
     void CheckCars()
     {
         for (int i = 0; i < cars.Length; i++)
         {
             if (cars[i].transform.position.z < playerCarTransform.position.z - 10f)
             {
-                // start from player position
                 float furthestZ = playerCarTransform.position.z;
-
                 for (int j = 0; j < cars.Length; j++)
                 {
                     if (cars[j].transform.position.z > furthestZ)
                         furthestZ = cars[j].transform.position.z;
                 }
 
-                float[] lanes = { -roadWidth / 2f, roadWidth / 2f };
-                float randomX = lanes[Random.Range(0, lanes.Length)];
+                float[] lanes = { -roadWidth / 4f, roadWidth / 4f };
+
+                // 70% chance to switch lane, 30% chance to stay
+                if (Random.Range(0, 10) < 7)
+                    lastLane = lastLane == 0 ? 1 : 0;
+
+                float randomX = lanes[lastLane];
                 float randomZ = furthestZ + Random.Range(15f, 30f);
 
                 cars[i].transform.position = new Vector3(randomX, roadY, randomZ);
