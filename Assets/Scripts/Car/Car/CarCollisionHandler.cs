@@ -83,6 +83,10 @@ public class CarCollisionHandler : MonoBehaviour
         {
             tracker.SaveScore();
 
+            // hide HUD distance text
+            tracker.distanceText.gameObject.SetActive(false);
+
+
             // show distance and high score on game over screen
             if (gameOverDistanceText != null)
                 gameOverDistanceText.text = "Distance: " + Mathf.RoundToInt(tracker.GetDistance()) + "m";
@@ -110,6 +114,7 @@ public class CarCollisionHandler : MonoBehaviour
 
     public void GoToMainMenu()
     {
+
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }

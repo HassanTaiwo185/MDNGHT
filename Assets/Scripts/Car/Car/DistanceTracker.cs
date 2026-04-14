@@ -20,6 +20,9 @@ public class DistanceTracker : MonoBehaviour
 
         if (highScoreText != null)
             highScoreText.text = "Best: " + Mathf.RoundToInt(highScore) + "m";
+
+
+
     }
 
     void Update()
@@ -31,7 +34,7 @@ public class DistanceTracker : MonoBehaviour
         distanceText.text = "Distance: " + Mathf.RoundToInt(totalDistance) + "m";
     }
 
-    // call this when game ends
+    
     public void SaveScore()
     {
         if (totalDistance > highScore)
